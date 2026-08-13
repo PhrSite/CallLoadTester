@@ -22,8 +22,8 @@ public class Program
     public const string AppName = "CallLoadTester";
     public static string Version = "1.0.0";
 
-    public const string HelpUriBase = "http://localhost:8080/docs/";
-    // public const string HelpUriBase = "https://CallLoadTester.github.io/CallLoadTester/docs/"
+    //public const string HelpUriBase = "http://localhost:8080/docs/";
+    public const string HelpUriBase = "https://CallLoadTester.github.io/CallLoadTester/docs/";
     public const string GettingStartedUri = HelpUriBase + "GettingStarted.html";
     public const string HomePageHelpUri = HelpUriBase + "MainPage.html";
     public const string SettingsPageHelpUri = HelpUriBase + "SettingsPage.html";
