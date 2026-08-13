@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Location and Additional Data | OspSimulator Documentation </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Location and Additional Data | OspSimulator Documentation ">
+    
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="OspSimulator Documentation">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="location-and-additional-data"><a name="AdditionalData">Location and Additional Data</a></h1>
+
+<p>The application provides a default database of location and additional data. The default database provides a general framework so that users can add or modify it. The default database provides additional data and location data for a limited number of calling party numbers.</p>
+<p>When the application runs, it checks for the presence of additional data for the current Windows user. If it does not find additional data for the current user then it copies its default database to a location specific to the current user so that each user can manage their own additional data an location data database.</p>
+<p>The following table presents a summary of the location and additional data available in the default database for each calling party number (From).</p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>Location</th>
+<th>Comment</th>
+<th>Device Info</th>
+<th>Provider Info</th>
+<th>Service Info</th>
+<th>Subscriber Info</th>
+<th>AACN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6306810001</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>6306820002</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>6306820003</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>6306820004</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes, in the PidfLo.xml document</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>6306820005</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes, multiple</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>AACN = Automated Advanced Crash Notification</p>
+<p>The following table describes the location data in the default database for each calling party number (From).</p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>Civic Location</th>
+<th>Geographic Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6306820001</td>
+<td>2106 E NEW YORK ST, AURORA, IL</td>
+<td>None</td>
+</tr>
+<tr>
+<td>6306820002</td>
+<td>16010 PENNY LN, HOMER GLEN, IL 16010</td>
+<td>None</td>
+</tr>
+<tr>
+<td>6306820003</td>
+<td>2190 E NEW YORK ST, AURORA, IL</td>
+<td>None</td>
+</tr>
+<tr>
+<td>6306820004</td>
+<td>1102 CORNELL LN, YORKVILLE, IL</td>
+<td>Point: Lat = 41.65728, Lon = -88.4603</td>
+</tr>
+<tr>
+<td>6306820005</td>
+<td>None</td>
+<td>Circle: Lat = 37.09024, Lon = -95.712891, Radius = 50 meters</td>
+</tr>
+</tbody>
+</table>
+<h1 id="managing-custom-data"><a name="ManageCustomData">Managing Custom Data</a></h1>
+<p>Each Windows user’s database is located in the application data directory for the user. For example, if the Windows user's name is John, the location and additional data will be stored in the following directory:</p>
+<blockquote>
+<p>C:\Users\John\AppData\Local\OspSimulator\AdditionalData</p>
+</blockquote>
+<p>The AdditionalData directory contains subdirectories. The name of each subdirectory is a 10-digit telephone number that identifies the simulated call’s calling party number. Each subdirectory contains one or more XML files that contain location or additional data.</p>
+<p>The user can modify the files under each directory and add location and additional data for new calling party numbers.</p>
+<p>Users can add additional data and location data for new calling party numbers by following these steps.</p>
+<ol>
+<li>Create a new directory under the AdditionalData directory. The new directory name should be a new 10-digit number.</li>
+<li>Add additional data and location data files to the new directory.</li>
+</ol>
+<p><strong>Note:</strong> The application reads the additional data and location for all calling party numbers when the user clicks on the Start Server button in the main application window. If any changes are made to the additional data or location data after the application's server has been started then the server must be stopped and the started again.</p>
+<p>This application uses the following file naming convention for location and additional data.</p>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>File Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location</td>
+<td>PidfLo.xml</td>
+<td>Location data in PIDF-LO XML format. There are many ways that location can be represented. <a href="https://phrsite.github.io/Ng911Lib/articles/WorkingwithPIDF-LOData.html">See Working with PIDF-LO Data</a>.</td>
+</tr>
+<tr>
+<td>Comments</td>
+<td>Comment*.xml</td>
+<td>Provides human readable comments about some aspect about the call such as information about the subscriber. See Section 4.5 of RFC 7852. There may be multiple comments files as described below.</td>
+</tr>
+<tr>
+<td>Device Information</td>
+<td>DeviceInfo.xml</td>
+<td>Provides information about the device that made the call. See Section 4.3 of RFC 7852.</td>
+</tr>
+<tr>
+<td>Provider Information</td>
+<td>ProviderInfo*.xml</td>
+<td>Provides information about the provider of one or more of the other additional data or location blocks. See Section 4.1 or RFC 7852. There may be multiple provider information files as described below.</td>
+</tr>
+<tr>
+<td>Service Information</td>
+<td>ServiceInfo.xml</td>
+<td>This file describes the service that the service provider provides to the caller. See Section 4.2 of RFC 7852.</td>
+</tr>
+<tr>
+<td>Subscriber Information</td>
+<td>SubscriberInfo.xml</td>
+<td>This file provides information about the subscriber of the telephone service that placed the call. See Section 4.4 of RFC 7852.</td>
+</tr>
+<tr>
+<td>Automated Crash Notification</td>
+<td>AutomatedCrashNotification.xml</td>
+<td>Provides information from an automated crash notification system. See RFC 8148.</td>
+</tr>
+</tbody>
+</table>
+<p>All or none of the above location and additional data may be available for a simulated calling party.</p>
+<p>There can only be one file for each of the following data types.</p>
+<ol>
+<li>Location</li>
+<li>Device Information</li>
+<li>Service Information</li>
+<li>Subscriber Information</li>
+<li>Automated Crash Notification</li>
+</ol>
+<p>The file names for each of the additional data/location data in the above list must exactly match the file names shown in the above table.</p>
+<p>It is possible to have multiple files for Comments and Provider Information. The asterisk shown in File Name column in the above table represents a multi-character wild card.</p>
+<p>For example, there could be comments relating to the caller's location and comments relating to the subscriber. In this case, the first comment file could be named &quot;Comments1.xml and the second comments file could be called &quot;Comments2.xml&quot;. The same rule applies to provider information.</p>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

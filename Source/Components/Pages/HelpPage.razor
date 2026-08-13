@@ -1,0 +1,290 @@
+﻿@page "/Help"
+
+<div class="container-fluid">
+
+<h1>Introduction</h1>
+    <p>
+        This application is a test program for performing SIP call load testing by sending multiple calls to a system
+        under test. 
+    </p>
+
+    <p>
+        See the <a href="/Help#CallQualityPage">Call Quality Page</a>
+    </p>
+
+<h1>Getting Started</h1>
+    <p>Paragraph 1</p>
+
+<h1>Settings</h1>
+<br />
+
+<h2>SIP Address Settings</h2>
+<br />
+
+<h3><a name="SipToUri">SIP To URI</a></h3>
+<p>
+    The SIP To URI setting specifies the destination to send SIP calls to. This setting must be a valid SIP URI. This SIP URI
+    may contain a host part that is an IPv4 address, an IPv6 address or a host name. 
+    The following table shows some examples of valid SIP URIs.
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>SIP URI</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>sip:911@192.168.64:5060</td>
+            <td>Send INVITE requests to IPv4 address = 192.168.1.64 on port 5060 using UDP</td>
+        </tr>
+        <tr>
+            <td>sip:911@192.168.64:5060;transport=tcp</td>
+            <td>Send INVITE requests to IPv4 address = 192.168.1.64 on port 5060 using TCP</td>
+        </tr>
+        <tr>
+            <td>sip:911@@[2600:1700:7A40:4740::525];transport=tcp</td>
+            <td>Send INVITE requests to IPv6 address = 2600:1700:7A40:4740::525 on port 5060 using TCP</td>
+        </tr>
+        <tr>
+            <td>sips:911@psapsimulator.net;transport=tcp</td>
+            <td>Perform a DNS query for psapsimulator.net. Send INVITE requests to the resolved IP address on port 5061 using 
+                SIPS (SIP over TLS)</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    The host portion of the SIP URI can either be host name/domain or an IP endpoint consisting of an IP address and a port 
+    number.
+</p>
+<p>
+    If the host portion of the SIP URI is a host name then the application will lookup the host name via a DNS request to 
+    resolve it to an IP address. If the computer has an IPv4 address then the application will perform a A record DNS query. 
+    If the computer has an IPv6 address then the application will perform a AAAA record DNS query.
+</p>
+<p>
+    If the application finds both an IPv4 and an IPv6 address for the host name then it will use the Prefer IPv6 setting to 
+    determine which IP address to use. If Prefer IPv6 is checked then the application will use the IPv6 address, else it will 
+    use the IPv4 address.
+</p>
+<p>
+    If the host portion is an IP endpoint then the application will not perform a DNS query.
+</p>
+<p>
+    The port parameter of the SIP URI is optional. If a port is not specified then the application will use 5060 for SIP and 
+    5061 for SIPS (SIP over TLS).
+</p>
+
+<h3>Starting From Number</h3>
+<p>
+    This application uses a unique SIP From header for each INVITE request that it sends to the system under test. This setting
+    specifies a 10-digit telephone number that will be used for the user part of the SIP URI in the From header of the first INVITE request. 
+    The telephone number will be incremented by one for each subsequent INVITE request.
+</p>
+<p>
+    For example, if the Starting From Number setting is 1000000000 and the local IPv4 address is 102.168.1.76, then the From
+    header in the first INVITE request will be From: &lt;sip:1000000000@192.168.1.76&gt; and the From header for the second INVITE request
+    will be From: &lt;sip:1000000001@192.168.1.76&gt;.
+</p>
+
+<h3>Use urn:service:sos</h3>
+<p>
+    If this checkbox is checked then the SIP Request URI in the request line of each INVITE request will
+    be urn:service:sos. If this checkox is not checked then the SIP Request URIn in the request line of
+    each INVITE request will be set to the <a href="Help/#SipToUri">SIP To URI</a>.
+</p>
+
+<h2>Number of Calls</h2>
+<p>
+    The following settings specify the number and rate of call request that the application will send to the
+    system under test.
+</p>
+<h3>Total Calls</h3>
+<p>
+    This setting specifies the number of call attempts that the application will perform. The application
+    will stop sending INVITE requests when the number of call attempts reaches this limit.
+</p>
+ <h3>Simultaneous Calls</h3>
+ <p>
+     This setting specifies the maximum number of simultaneous call attempts to perform. For example,
+     if this setting is 10, the application will send 10 INVITE requests to the call target. The application
+     will not send another INVITE request until one or more of the calls is terminated or fails.
+ </p>
+ <h3>Call Interval (msec.)</h3>
+ <p>
+     The Call Interval setting specifies the interval to wait between sending consecutive INVITE requests
+     in milliseconds. The minimum setting is 0 milliseconds. There is no upper limit for this setting.
+ </p>
+ <p>
+     When the call interval setting is below 10 milliseconds or so, the actual call interval is somewhat 
+     non-deterministic depending upon the operating system (Linux or Windows) and the SIP transport (UDP, TCP or TLS) being used.
+     If using the UDP protocol for SIP, the minimum achieved call interval may be sub-millisecond. If using
+     TCP or TLS, the minimum achieved call interval is typically on the order of milliseconds to 10 or 20
+     milliseconds.
+ </p>
+ <h3>Call Duration (sec.)</h3>
+ <p>
+     This application automatically terminates answered calls after the number of seconds specified by this 
+     setting. The minimum setting is 1 second. There is no upper limit for this setting.
+ </p>
+ <p>
+     If the call duration is less than 5 seconds call quality MOS scores will not be available.
+ </p>
+ <h2>Location Settings</h2>
+ <p>
+     This application is capable of generating unique locations for each call and it will send a semi-random
+     caller location for each call.
+ </p>
+ <p>
+     Semi-random locations are generated within a rectangle that is determined by the Starting Latitude,
+     Starting Longitude, Delta Latitude and Delta Longitude settings.
+ </p>
+ <h3>Send Location</h3>
+ <p>
+     If this checkbox is checked then the application will send a semi-random caller location with each call.
+ </p>
+ <h3>Starting Latitude</h3>
+ <p>
+    This setting specifies the latitude in decimal degrees to use for generation of caller locations.
+    The spacial reference is WGS-84.
+ </p>
+ <p>
+    The minimum value is -90 and the maximum value is 90 degrees.
+ </p>
+ <h3>Starting Longitude</h3>
+ <p>
+     This setting specifies the longitude in decimal degrees to use for generation of caller locations.
+     The spacial reference is WGS-84.
+ </p>
+ <p>
+     The minimum value is -180 and the maximum value is 180 degrees.
+ </p>
+ <h3>Delta Latitude</h3>
+ <p>
+    All latitudes for the caller location will be between the Starting Latitude value and this value 
+    plus the Starting Latitude value.
+ </p>
+ <p>
+    The minimum value is 0 and the maximum value is limited to 10 degrees.
+ </p>
+ <h3>Delta Longitude</h3>
+ <p>
+        All longitudes for the caller location will be between the Starting Longitude value and this 
+        value plus the Starting Longitude.
+ </p>
+ <p>
+    The minimum value is 0 and the maximum value is limited to 10 degrees.
+ </p>
+ <h2>Network Settings</h2>
+ <p>
+     The network settings determine the IP addresses and port numbers used for SIP.
+ </p>
+ <h3>Enable IPv4</h3>
+<p>
+    If checked then IP version 4 (IPv4) will be used for SIP and media.
+</p>
+<h3>IPv4 Address</h3>
+<p>
+    This setting selects the local IPv4 address that the application will bind to for SIP.
+</p>
+<h3>Enable IPv6</h3>
+<p>
+    If checked then IP version 6 (IPv6) will be used for SIP and media.
+</p>
+<h3>IPv6 Address</h3>
+<p>
+    This setting selects the local IPv6 address that the application will bind to for SIP.
+</p>
+<h3>Prefer IPv6</h3>
+<p>
+    This setting determines which IP protocol to use (IPv4 or IPv6) to use if it performs a DNS host
+    name lookup and finds both an IPv4 address and an IPv6 address for the hostname portion of the
+    SIP To URI setting.
+
+</p>
+<p>
+    If the application finds both an IPv4 and an IPv6 address for the host name then it will use the 
+    Prefer IPv6 setting to determine which IP address to use. If Prefer IPv6 is checked then the 
+    application will use the IPv6 address, else it will use the IPv4 address.
+</p>
+<h2>SIP Protocol Settings</h2>
+<p>
+    &nbsp;
+</p>
+<h3>Local SIP Port</h3>
+<p>
+    This setting specifies the local SIP port to bind to for UDP and TCP.
+</p>
+<h3>Local SIPS Port</h3>
+<p>
+    This setting specifies the local SIP port to bind to for SIPS (SIP over TLS).
+</p>
+
+<h3>Audio Codec</h3>
+<p>
+    This setting determines which audio codec the application will offer in the INVITE messages that it sends
+    to the call target.
+</p>
+<p>
+    The available codecs are:
+    <ul>
+        <li>PCMU</li>
+        <li>PCMA</li>
+        <li>G722</li>
+        <li>G729</li>
+        <li>AMR-WB</li>
+    </ul>
+    The default setting is PCMU.
+</p>
+<h3>Audio Encryption</h3>
+<p>
+    This setting specifies the type of audio media encryption to offer the call target in the INVITE request.
+</p>
+<p>
+    The following encryption methods are supported.
+    <ul>
+        <li>None</li>
+        <li>SDES-SRTP</li>
+        <li>DTLS-SRTP</li>
+    </ul>
+    The default setting is None.
+</p>
+<h3>Starting Audio Port</h3>
+<p>
+    This setting specifies the first UDP port in the range of ports to used for audio media. The audio port range
+    is from this port number to this port number plus the Number of Ports setting - 1.
+</p>
+<p>
+    This application manages ports within the audio port range. It allocates 2 ports for each call. The even
+    ports are for audio media. The odd port numbers are for use the Real Time Control Protocol for the audio media.
+</p>
+<h3>Number of Ports</h3>
+<p>
+The Number of Ports setting specifies the number of RTP ports to reserve for audio media.
+</p>
+<p>
+    This setting must be at least twice the Simultaneous Calls setting because two ports are allocated 
+    for each call.
+</p>
+
+<h1><a id="CallQualityPage">Call Quality Page</a></h1>
+<p>
+The Call Quality Page presents statistics that indicate the quality of the calls generated by this application.
+</p>
+
+<h2>Call Quality Summary</h2>
+<p>
+This table displays a summary of the call quality statistics for all completed calls.
+</p>
+
+<h2>MOS Range Counts</h2>
+
+<h2>Individual Call Statistics</h2>
+
+</div>
+
+
+@code {
+
+}

@@ -1,0 +1,119 @@
+﻿@page "/"
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+
+<PageTitle>Call Load Tester</PageTitle>
+
+<h1>Call Load Tester</h1>
+
+<div class="bg-secondary-subtle border border-1 border-dark rounded-3 pt-1 pb-1 mt-4 w-100">
+
+<div class="row mb-1 mt-2">
+    <div class="col-lg-2">
+        <h2 class="text-end">Total Calls</h2>
+    </div>
+    <div class="col-lg-2">
+        <h2><span class="badge bg-secondary w-75">@CurrentStatistics.TotalCalls</span></h2>
+    </div>
+
+    <div class="col-lg-2">
+        <h2 class="text-end">Calling</h2>
+    </div>
+    <div class="col-lg-2">
+        <h2><span class="badge bg-secondary w-75">@CurrentStatistics.Calling</span></h2>
+    </div>
+
+    <div class="col-lg-2">
+        <h2 class="text-end">Rejected</h2>
+    </div>
+    <div class="col-lg-2">
+        @if (CurrentStatistics.Rejected == 0)
+        {
+            <h2><span class="badge bg-secondary w-75">@CurrentStatistics.Rejected</span></h2>
+        }
+        else
+        {
+            <h2><span class="badge bg-danger w-75">@CurrentStatistics.Rejected</span></h2>
+        }
+    </div>
+
+</div>
+
+<div class="row mb-1 mt-2">
+    <div class="col-lg-2">
+        <h2 class="text-end">Completed</h2>
+    </div>
+    <div class="col-lg-2">
+        <h2><span class="badge bg-success w-75">@CurrentStatistics.Completed</span></h2>
+    </div>
+
+    <div class="col-lg-2">
+        <h2 class="text-end">Ringing</h2>
+    </div>
+    <div class="col-lg-2">
+        <h2><span class="badge bg-secondary w-75">@CurrentStatistics.Ringing</span></h2>
+    </div>
+
+    <div class="col-lg-2">
+        <h2 class="text-end">Failed</h2>
+    </div>
+    <div class="col-lg-2">
+        @if (CurrentStatistics.Failed == 0)
+        {
+            <h2><span class="badge bg-secondary w-75">@CurrentStatistics.Failed</span></h2>
+        }
+        else
+        {
+            <h2><span class="badge bg-danger w-75">@CurrentStatistics.Failed</span></h2>
+        }
+    </div>
+
+</div>
+
+<div class="row mb-1 mt-2">
+    <div class="col-lg-2">
+        <h2 class="text-end">On-Line</h2>
+    </div>
+    <div class="col-lg-2">
+        <h2><span class="badge bg-secondary w-75">@CurrentStatistics.OnLine</span></h2>
+    </div>
+    <div class="col-lg-2">
+        <h2 class="text-end">Canceled</h2>
+    </div>
+    <div class="col-lg-2">
+        <h2><span class="badge bg-secondary w-75">@CurrentStatistics.Canceled</span></h2>
+    </div>
+
+</div>
+
+</div>
+
+@if (ShowError == true)
+{
+    <div class="alert alert-danger mt-2">
+        <button type="button" class="btn-close me-2" @onclick="OnDismissError"></button>
+        <strong>Error: </strong> @ErrorMessage
+    </div>
+}
+
+<div class="row mb-1 mt-5">
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-primary" @onclick="OnStartService">@StartButtonLabel</button>
+    </div>
+
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-secondary" @onclick="OnStartCalls">@StartCallsButtonLabel</button>
+    </div>
+
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-secondary" @onclick="OnEndCalls">End Calls</button>
+    </div>
+
+    <div class="col-sm-2">
+        <a class="btn btn-secondary" href="@Program.HomePageHelpUri" target="_blank">Help</a>
+    </div>
+
+</div>

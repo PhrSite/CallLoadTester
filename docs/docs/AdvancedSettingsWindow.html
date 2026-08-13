@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Advanced Settings Window | OspSimulator Documentation </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Advanced Settings Window | OspSimulator Documentation ">
+    
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="OspSimulator Documentation">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="advanced-settings-window">Advanced Settings Window</h1>
+
+<p>This window allows you to configure the advanced settings for the OspSimulator application.</p>
+<h2 id="network-settings">Network Settings</h2>
+<h3 id="use-mutual-authentication">Use Mutual Authentication</h3>
+<p>This setting applies to SIP over TLS. If this checkbox is checked, then the application shall offer its X.509 certificate when it attempts to connect to the remote host using SIP over TLS.</p>
+<p>The default setting is un-checked.</p>
+<h3 id="use-https">Use HTTPS</h3>
+<p>If checked, then the application listens on HTTPS for its HELD and additional data interfaces. If not checked, then the application will listen on HTTP.</p>
+<p>The default setting is un-checked.</p>
+<h3 id="use-ipv4-for-https">Use IPv4 for HTTP(s)</h3>
+<p>If checked, then application uses IPv4 for the HTTP interfaces, else it uses IPv6 for the HTTP interfaces.</p>
+<p>The default setting is checked.</p>
+<h3 id="http-port">HTTP Port</h3>
+<p>This setting specifies the TCP port number to use for HTTP interfaces.</p>
+<p>The default setting is 11000.</p>
+<h3 id="https-port">HTTPS Port</h3>
+<p>This setting specifies the TCP port number to use for HTTPS interfaces.</p>
+<p>The default setting is 11001.</p>
+<h3 id="local-sip-port">Local SIP Port</h3>
+<p>Specifies the SIP port for UDP and TCP.</p>
+<p>The default setting is 5060.</p>
+<h3 id="local-sips-port">Local SIPS Port</h3>
+<p>Specifies the SIP port for Transport Layer Security (TLS).</p>
+<p>The default setting is 5061.</p>
+<h3 id="media-ports">Media Ports</h3>
+<p>This application allocates media ports within separate ranges for each type of media. A port range is defined by a starting port number and a number of ports.</p>
+<p>For audio, video and RTT, the application increments the port number by 2 each time a new port is required. This allows the odd port number to be used for RTCP. This means that the actual number of media connections is 1/2 of the specified number of ports.</p>
+<p>For MSRP, the application increments the port number by one because MSRP does have the equivalent of the RTCP protocol.</p>
+<p>When the last port number in a port range is used, the application wraps around the next allocated port number to the first port number in the range.</p>
+<p>The following table shows the default media port settings.</p>
+<table>
+<thead>
+<tr>
+<th>Media Type</th>
+<th>Start Port</th>
+<th>Number of Ports</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Audio</td>
+<td>6000</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Video</td>
+<td>7000</td>
+<td>100</td>
+</tr>
+<tr>
+<td>RTT</td>
+<td>8000</td>
+<td>100</td>
+</tr>
+<tr>
+<td>MSRP</td>
+<td>9000</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>The port ranges for audio, video and RTT may not overlap.</p>
+<p>The port range for MSRP may overlap the port ranges for audio, video and RTT because MSRP uses TCP and audio, video and RTT use RTP over UDP.</p>
+<h2 id="certificate-settings">Certificate Settings</h2>
+<p>This application ships with a default X.509 certificate for use with Transport Layer Security (TLS). This default certificate is a self-signed certificate.</p>
+<p>The certificate settings allow the user to either use the default self-signed certificate or to specify a user-provided X.509 certificate file.</p>
+<h3 id="use-default-certificate">Use Default Certificate</h3>
+<p>If this checkbox is checked then the application will use the default X.509 certificate regardless of the Certificate File and Password settings.</p>
+<p>If this checkbox is not checked then the application will use the X.509 certificate file specified in the Certificate File text box.</p>
+<h3 id="certificate-file">Certificate File</h3>
+<p>Specifies the path to a user-provided X.509 PFX certificate file.</p>
+<p>The certificate file path must be provided if the Use Default Certificate checkbox is un-checked.</p>
+<p>The user-provided X.509 file must contain a private key and it must be password protected.</p>
+<h3 id="password">Password</h3>
+<p>Specifies the password for the user-provided X.509 certificate file.</p>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

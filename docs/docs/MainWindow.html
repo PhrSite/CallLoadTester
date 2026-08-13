@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>The Main Application Window | OspSimulator Documentation </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="The Main Application Window | OspSimulator Documentation ">
+    
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="OspSimulator Documentation">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="the-main-application-window">The Main Application Window</h1>
+
+<p>The main application window provides various configuration settings and controls that allow you to start a call.</p>
+<h1 id="call-address-settings">Call Address Settings</h1>
+<h2 id="to-sip-uri"><a name="ToSipUri">To SIP URI</a></h2>
+<p>This text field specifies the address of who to call in the form of a SIP URI.</p>
+<p>The following table shows some examples of valid SIP URIs.</p>
+<table>
+<thead>
+<tr>
+<th>SIP URI</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sip:911@192.168.64:5060</td>
+<td>Send an INVITE request to IPv4 address = 192.168.1.64 on port 5060 using UDP</td>
+</tr>
+<tr>
+<td>sip:911@192.168.64:5060;transport=tcp</td>
+<td>Send an INVITE request to IPv4 address = 192.168.1.64 on port 5060 using TCP</td>
+</tr>
+<tr>
+<td>sip:911@[2600:1700:7A40:4740::525];transport=tcp</td>
+<td>Send an INVITE to IPv6 address = 2600:1700:7A40:4740::525 on port 5060 using TCP</td>
+</tr>
+<tr>
+<td>sips:911@psapsimulator.net;transport=tcp</td>
+<td>Perform a DNS query for psapsimulator.net. Send an INVITE to the resolved IP address on port 5061 using SIPS (SIP over TLS)</td>
+</tr>
+</tbody>
+</table>
+<p>The host portion of the SIP URI can either be host name/domain or an IP endpoint consisting of an IP address and a port number.</p>
+<p>If the host portion of the SIP URI is a host name then the application will lookup the host name via a DNS request to resolve it to an IP address. If the computer has an IPv4 address then the application will perform a A record DNS query. If the computer has an IPv6 address then the application will perform a AAAA record DNS query.</p>
+<p>If the application finds both an IPv4 and an IPv6 address for the host name then it will use the Prefer IPv6 setting to determine which IP address to use. If Prefer IPv6 is checked then the application will use the IPv6 address, else it will use the IPv4 address.</p>
+<p>If the host portion is an IP endpoint then the application will not perform a DNS query.</p>
+<p>The port parameter of the SIP URI is optional. If a port is not specified then the application will use 5060 for SIP and 5061 for SIPS (SIP over TLS).</p>
+<h2 id="use-urnservicesos">Use urn:service:sos</h2>
+<p>If this checkbox is checked the the request URI for the outgoing INVITE request will be set to &quot;urn:service:sos&quot;. If this checkbox is not checked then the request URI will be set to the To SIP URI.</p>
+<h2 id="from">From</h2>
+<p>This combo box allows you to select the calling party number. It contains a list of predefined numbers.</p>
+<p>If you select a predefined number, the application will also send location data and additional data that has been configured for that number depending upon the location and additional data configuration parameters.</p>
+<p>You can also type in anything into the text field of this combo box. If the entry does not correspond to a predefined calling party number then location and additional data will not be available for the call.</p>
+<h2 id="use-tel-uri">Use tel URI</h2>
+<p>If this checkbox is checked then the application will put a tel URI in the From header of the outgoing SIP INVITE request. For for example:</p>
+<pre><code>From: &quot;6306820001&quot; &lt;tel:+16306820001&gt;;tag=lfh74maad2
+</code></pre>
+<p>If this checkbox is not checked then the application will put a SIP URI in the From header as follows.</p>
+<pre><code>From: &quot;6306820001&quot; &lt;sip:6306820001@192.168.1.76:5060;transport=tcp&gt;;tag=cx9sgz6f5u
+</code></pre>
+<h1 id="local-ip-addresses">Local IP Addresses</h1>
+<p>These settings specify which network types to use (IPv4 and/or IPv6) and allow you to specify which local address to use for each network type.</p>
+<p>Both IPv4 and IPv6 may be enabled.</p>
+<p>The local address that is used for a call depends upon these settings and the network type specified in the &quot;To SIP URI&quot; setting.</p>
+<p>The Prefer IPv6 checkbox specifies (if checked) to use IPv6 if IPv6 is enabled and the the &quot;To SIP URI&quot; resolves to both an IPv4 address and an IPv6 address.</p>
+<h1 id="offer-media-settings">Offer Media Settings</h1>
+<p>These settings specify which media types the application will offer in the outgoing INVITE request.</p>
+<p>It is possible to offer no media with the initial INVITE request for the call by un-checking all media types. The user can then add media once the call is answered if the called party allows a call with no media.</p>
+<p>The application will only allow one type of text media (RTT or MSRP) to be selected for a call.</p>
+<p>If the &quot;Use Message/CPIM&quot; checkbox is checked then the application will always send MSRP text messages using an MSRP content type of &quot;message/CPIM&quot;. Otherwise the application will always use a MSRP content type of &quot;text/plain&quot;.</p>
+<h1 id="media-encryption-settings">Media Encryption Settings</h1>
+<p>These settings specify the type to of encryption to use for RTP media (audio, video and RTT) and MSRP media.</p>
+<p>Media encryption is independent of the encryption used for SIP.</p>
+<h1 id="codec-settings">Codec Settings</h1>
+<p>The codec settings specify which media codecs are offered in the initial INVITE request or in a re-INVITE request to add a new media type to the call.</p>
+<p>The Change button for Audio Codecs displays the <a href="SelectingCodecs.html">Codec Selection</a> dialog box that allows you to select which audio codecs are offered. The Change button for Video Codecs displays the Codec Selection dialog box that allows you to select which video codecs are offered.</p>
+<h1 id="audio-settings">Audio Settings</h1>
+<p>The audio settings allow you to specify which audio device to use and the source of audio that will be sent to the called party.</p>
+<p>The audio device can either be the computer's speakers and microphone or a headset with a microphone.</p>
+<p>You can select the audio device to use using the Audio Device combo box in the event that there are multiple audio devices connected to your computer.</p>
+<p>If the Use Recorded Audio checkbox is checked, then audio from a pre-recorded audio file will be sent to the called party instead of audio from the microphone.</p>
+<p><strong>Note:</strong> You cannot change the source of the audio once a call has been started.</p>
+<p>This application provides a default audio recording. The default audio recording will be used if the Use Default Audio Recording checkbox is checked. The default audio recording repeats a message that says:</p>
+<blockquote>
+<p>This is a non-emergency test call recording.</p>
+</blockquote>
+<p>The default recording repeats every 5 seconds.</p>
+<p>The user can use their own pre-recorded audio file by checking the Use Recorded Audio checkbox and un-checking the Use Default Audio Recording checkbox.</p>
+<p>The file location of the user's pre-recorded audio file can be specified in the Recording File textbox.</p>
+<p>The user-provided audio file must be a Windows WAVE file with the following characteristics.</p>
+<ul>
+<li>Sample Format: 16-bit linear PCM</li>
+<li>Sample Rate: 8000 or 16000 samples/second</li>
+</ul>
+<h1 id="video-settings">Video Settings</h1>
+<p>The video settings allow the user to select which video device (camera) to use for capturing video and the format of the video to be captured.</p>
+<p>The supported video capture formats (Sub-Types) are NV12, YUY2 and RGB.</p>
+<h1 id="location-and-additional-data">Location and Additional Data</h1>
+<h2 id="location-settings">Location Settings</h2>
+<p>This application supports the following methods of delivering caller location data for a call.</p>
+<ul>
+<li>Location By-Value</li>
+<li>Location By-Reference</li>
+<li>Location By SIP Presence Event</li>
+</ul>
+<p>Any combination of the above delivery may be selected. If no location delivery methods are selected then location data will not be available for the call.</p>
+<h2 id="additional-data-settings">Additional Data Settings</h2>
+<p>The application supports the following methods for delivering additional data for a call.</p>
+<ul>
+<li>Additional Data By-Value</li>
+<li>Additional Data By-Reference</li>
+</ul>
+<p>The user may select one, both or none of the additional data delivery methods.</p>
+<h1 id="button-controls">Button Controls</h1>
+<h2 id="start-server">Start Server</h2>
+<p>Starts the application's HTTP server for location and additional data.</p>
+<p>When the server starts, the label of this button changes to &quot;Stop Server&quot;. If you click on the button when the label indicates &quot;Stop Server&quot; then the application stops its HTTP server.</p>
+<h2 id="advanced-settings">Advanced Settings</h2>
+<p>This button displays the <a href="AdvancedSettingsWindow.html">Advanced Settings Window</a>.</p>
+<h2 id="start-call">Start Call</h2>
+<p>Starts a new call. The button label changes to &quot;Calling...&quot;.</p>
+<p>You can cancel the call request by clicking on it when it indicates &quot;Calling...&quot;.</p>
+<p>The application will automatically display the <a href="CallForm.html">Current Call Window</a> when the call is answered by the called party.</p>
+<h2 id="help">Help</h2>
+<p>Displays the on-line help topic for this application.</p>
+<h2 id="close">Close</h2>
+<p>Closes the application.</p>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

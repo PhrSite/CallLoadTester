@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>The Current Call Window | OspSimulator Documentation </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="The Current Call Window | OspSimulator Documentation ">
+    
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="OspSimulator Documentation">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="the-current-call-window">The Current Call Window</h1>
+
+<p>This window appears automatically when the called party answers the call.</p>
+<p>This window shows various call status information and allows the user to perform the following actions.</p>
+<ol>
+<li>View send and receive video if the call has video.</li>
+<li>View received text message and send text messages if the call has RTT or MSRP media.</li>
+<li>Add new media types to the call</li>
+<li>End the call.</li>
+</ol>
+<h2 id="call-status-information">Call Status Information</h2>
+<p>The Current Call Window displays the following call status information.</p>
+<h3 id="to-display-field">To Display Field</h3>
+<p>This field displays the &quot;To SIP URI&quot; that the user entered in the main window.</p>
+<h3 id="from-display-field">From Display Field</h3>
+<p>This field displays the calling party number entered in the From field of the main window.</p>
+<h3 id="media-available-display-field">Media Available Display Field</h3>
+<p>This field shows a list of media that is currently available for the call. It will be blank if the call has no media.</p>
+<p>This field is automatically updated to show the new media that the user has added to the call, provided that the called party accepted the offer of new media.</p>
+<p>This field is automatically updated if the called party adds new media to the call.</p>
+<h3 id="audio-source-display-field">Audio Source Display Field</h3>
+<p>Indicates the source of audio sent to the called party. &quot;Recording&quot; indicates that the audio is from a pre-recorded file. &quot;Microphone&quot; indicates that the audio is captured from the computer's microphone.</p>
+<h2 id="add-media-button">Add Media Button</h2>
+<p>This button displays a dialog box that allows the user to add new media to the current call.</p>
+<p>Select the new media that you want to add and click on the OK button.</p>
+<p><strong>Note:</strong> Only one type of text media (RTT or MSRP) can be used for a call, you cannot select both.</p>
+<h2 id="text-messages">Text Messages</h2>
+<p>The Text Type display indicates the type of text media that is available for the call. This display will show &quot;None&quot; if no text media is available for the call, &quot;RTT&quot; if Real Time Text media is available for the call or &quot;MSRP&quot; if Message Session Relay Protocol media is available for the call.</p>
+<p>If RTT or MSRP text media is available, the list box shows the text messages that have been sent and received during this call.</p>
+<p>To send a new text message, type it in the New Message text box. If the text type is MSRP you can press the Enter keyboard key or click on the Send button to send the message. For RTT, each character is sent individually as you type them. Press the Enter key to clear the New Message text box in preparation for the next message.</p>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+﻿@*
+    File:   Settings.razor                                          1 Jun 26 PHR
+
+    Description:    This page reads the configuration settings for the Call Load Tester application from a file 
+                    and displays them in a form so the user can change them. When the user submits the
+                    form, the settings are save to the configuration file.
+*@
+
+@page "/Settings"
+@rendermode InteractiveServer
+@using System.Net;
+@using SipLib.Network;
+
+<PageTitle>Settings</PageTitle>
+
+<h1>Settings</h1>
+
+<EditForm OnValidSubmit="OnSubmit" Model="@TempSettings">
+    <DataAnnotationsValidator/>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-7">
+            <label for="SipToUri">SIP To URI</label>
+            <InputText class="form-control" id="SipToUri" @bind-Value="TempSettings.SipToUri" />
+            <ValidationMessage For="@(() => TempSettings.SipToUri)"/>
+        </div>
+        <div class="col-sm-3">
+            <label for="StartingFromNumber">Starting From Number</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.StartingFromNumber" />
+            <ValidationMessage For="@(() => TempSettings.StartingFromNumber)" />
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Use urn:service:sos
+                <InputCheckbox @bind-Value="TempSettings.UseUrnServiceSos"></InputCheckbox>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group row mb-1 mt-5">
+        <div class="col-sm-3">
+            <label for="TotalCalls">Total Calls</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.TotalCalls" />
+            <ValidationMessage For="@(() => TempSettings.TotalCalls)" />
+        </div>
+        <div class="col-sm-3">
+            <label for="SimultaneousCalls">Simultaneous Calls</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.SimultaneousCalls" />
+            <ValidationMessage For="@(() => TempSettings.SimultaneousCalls)" />
+        </div>
+        <div class="col-sm-3">
+            <label for="CallIntervalMs">Call Interval (msec.)</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.CallIntervalMs" />
+            <ValidationMessage For="@(() => TempSettings.CallIntervalMs)" />
+        </div>
+        <div class="col-sm-3">
+            <label for="CallDurationSeconds">Call Duration (sec.)</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.CallDurationSeconds" />
+            <ValidationMessage For="@(() => TempSettings.CallDurationSeconds)" />
+        </div>
+
+    </div>
+
+    <div class="form-group row mb-1 mt-5">
+        <div class="col-sm-2">
+            <label>
+                Send Location
+                <InputCheckbox @bind-Value="TempSettings.SendLocation"></InputCheckbox>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group row mb-1 mt-2">
+        <div class="col-sm-3">
+            <label for="StartingLatitudeDegrees">Starting Latitude (deg.)</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.StartingLatitudeDegrees" />
+            <ValidationMessage For="@(() => TempSettings.StartingLatitudeDegrees)" />
+        </div>
+        <div class="col-sm-3">
+            <label for="StartingLongitudeDegrees">Starting Longitude (deg.)</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.StartingLongitudeDegrees" />
+            <ValidationMessage For="@(() => TempSettings.StartingLongitudeDegrees)" />
+        </div>
+        <div class="col-sm-3">
+            <label for="DeltaLatitudeDegrees">Delta Latitude (deg.)</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.DeltaLatitudeDegrees" />
+            <ValidationMessage For="@(() => TempSettings.DeltaLatitudeDegrees)" />
+        </div>
+        <div class="col-sm-3">
+            <label for="DeltaLongitudeDegrees">Delta Longitude (deg.)</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.DeltaLongitudeDegrees" />
+            <ValidationMessage For="@(() => TempSettings.DeltaLongitudeDegrees)" />
+        </div>
+    </div>
+
+    <div class="form-group row mb-1 mt-5">
+        <div class="col-sm-2">
+            <label>
+                Enable IPv4
+                <InputCheckbox @bind-Value="TempSettings.EnableIPv4"></InputCheckbox>
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>IPv4 Address</label>
+            <InputSelect @bind-Value="TempSettings.IPv4Address" class="form-select">
+                @foreach (IPAddress IPv4Addr in IpUtils.GetIPv4Addresses())
+                {
+                    <option value="@IPv4Addr">@IPv4Addr</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Enable IPv6
+                <InputCheckbox @bind-Value="TempSettings.EnableIPv6"></InputCheckbox>
+            </label>
+        </div>
+        <div class="col-sm-4">
+            <label>IPv6 Address</label>
+            <InputSelect @bind-Value="TempSettings.IPv6Address" class="form-select">
+                @foreach (IPAddress IPv6Addr in IpUtils.GetIPv6Addresses())
+                {
+                    <option value="@IPv6Addr">@IPv6Addr</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Prefer IPv6
+                <InputCheckbox @bind-Value="TempSettings.PreferIPv6"></InputCheckbox>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group row mb-1 mt-5">
+        <div class="col-sm-2">
+            <label for="LocalSipPortNumber">Local SIP Port</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.LocalSipPortNumber" />
+            <ValidationMessage For="@(() => TempSettings.LocalSipPortNumber)" />
+        </div>
+        <div class="col-sm-2">
+            <label for="LocalSipsPortNumber">Local SIPS Port</label>
+            <InputNumber class="form-control" @bind-Value="TempSettings.LocalSipsPortNumber" />
+            <ValidationMessage For="@(() => TempSettings.LocalSipsPortNumber)" />
+        </div>
+        <div class="col-sm-2">
+            <label for="AudioCodec">Audio Codec</label>
+            <InputSelect @bind-Value="TempSettings.AudioCodec" class="form-select">
+                <option value="PCMU">PCMU</option>
+                <option value="PCMA">PCMA</option>
+                <option value="G722">G722</option>
+                <option value="G729">G729</option>
+                <option value="AMR-WB">AMR-WB</option>
+            </InputSelect>
+        </div>
+        <div class="col-sm-2">
+            <label for="RtpEncryption">Audio Encryption</label>
+            <InputSelect @bind-Value="TempSettings.RtpEncryption" class="form-select">
+                <option value="None">None</option>
+                <option value="SDES-SRTP">SDES-SRTP</option>
+                <option value="DTLS-SRTP">DTLS-SRTP</option>
+            </InputSelect>
+        </div>
+        <div class="col-sm-2">
+            <label>Starting Audio Port</label>
+            <InputNumber @bind-Value="TempSettings.StartingAudioPortNumber" class="form-control"></InputNumber>
+            <ValidationMessage For="@(() => TempSettings.StartingAudioPortNumber)" />
+        </div>
+        <div class="col-sm-2">
+            <label>Number of Ports</label>
+            <InputNumber @bind-Value="TempSettings.NumPorts" class="form-control"></InputNumber>
+            <ValidationMessage For="@(() => TempSettings.NumPorts)" />
+        </div>
+    </div>
+
+    @if (ShowError == true)
+    {
+        <div class="alert alert-danger mt-2">
+            <strong>Error: </strong> @ErrorMessage
+        </div>
+    }
+
+    @if (ShowSuccess == true)
+    {
+        <div class="alert alert-success mt-2">
+            @SuccessMessage
+        </div>
+    }
+
+    <div class="form-group row mb-1 mt-5">
+        <div class="col-sm-1">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="btn btn-secondary" href="@Program.SettingsPageHelpUri" target="_blank">Help</a>
+        </div>
+
+    </div>
+
+</EditForm>
+
+@code {
+
+}

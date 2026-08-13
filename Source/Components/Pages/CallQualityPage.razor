@@ -1,0 +1,135 @@
+﻿
+@page "/CallQualityPage"
+@using Microsoft.AspNetCore.Components.Authorization
+@rendermode InteractiveServer
+<PageTitle>Call Quality</PageTitle>
+
+<h3>Call Quality Summary</h3>
+
+@if (m_CallManager.CallManagerState != CallManagerStateEnum.Running)
+{
+    <div class="alert alert-danger mt-2">
+        <strong>Error: </strong> The Call Manager Service is not running. Click on the Start Service button in the Home page to start the service. 
+        Then click on the Start Calls button.
+    </div>
+    <div class="row mb-1 mt-5">
+        <div class="col-sm-2">
+            <a class="btn btn-secondary" href="@Program.CallQualityPageHelpUri" target="_blank">Help</a>
+        </div>
+    </div>
+
+}
+else if (m_Summary.CallStatistics.Count == 0)
+{
+    <div class="alert alert-danger mt-2">
+        <strong>Error: </strong> No completed calls of sufficient duration (> 5 seconds) to report statistics for.
+    </div>
+    <div class="row mb-1 mt-5">
+        <div class="col-sm-2">
+            <a class="btn btn-secondary" href="@Program.CallQualityPageHelpUri" target="_blank">Help</a>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="mt-3">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><strong>Completed Calls</strong></td>
+                    <td class="text-center">@m_Summary.CallStatistics.Count</td>
+                    <td><strong>Minimum MOS</strong></td>
+                    <td class="text-center @GetMosTextBackground(m_Summary.MinimumMos)">
+                        @m_Summary.MinimumMos.ToString("F2")
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Maximum Jitter (ms)</strong></td>
+                    <td class="text-center">@m_Summary.MaximumJitterMs</td>
+                    <td><strong>Dropped Packets</strong></td>
+                    <td class="text-center">@m_Summary.DroppedPackets</td>
+                </tr>
+                <tr>
+                    <td><strong>Out of Order Packets</strong></td>
+                    <td class="text-center">@m_Summary.OutOfOrderPackets</td>
+                    <td><strong>Maximum Network Delay (ms)</strong></td>
+                    <td class="text-center">@m_Summary.MaximumDelayMs</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-5">
+        <h3>MOS Range Counts</h3>
+        <table class="table table-bordered">
+            <thead class="table-secondary">
+                <tr class="text-center">
+                    <th>Quality</th>
+                    <th>MOS Range</th>
+                    <th>Number of Calls</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MosRangeRowType rangeRow in m_Summary.MosRangeCounts)
+                {
+                    <tr>
+                        <td>@rangeRow.Quality</td>
+                        <td>@rangeRow.MosRange</td>
+                        @if (rangeRow.CallCount > 0)
+                        {
+                            <td class="text-center @rangeRow.Class">@rangeRow.CallCount</td>
+                        }
+                        else
+                        {
+                            <td class="text-center">@rangeRow.CallCount</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-5">
+        <h3 class="mb-3">Individual Call Statistics</h3>
+        <table class="table table-bordered table-sm">
+            <thead class="table-secondary">
+                <tr class="text-center">
+                   <th>Start Time</th>
+                   <th>Response Time (ms)</th>
+                   <th>Ring Time (ms)</th>
+                   <th>Call Duration (sec)</th>
+                   <th>Min. MOS</th>
+                   <th>Avg. MOS</th>
+                   <th>Max. Jitter (ms)</th>
+                   <th>Dropped Packets</th>
+                   <th>Network Delay (ms)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CallQualityStatistics stats in m_Summary.CallStatistics)
+                {
+                    <tr class="text-center">
+                        <td>@stats.CallStartTime</td>
+                        <td>@stats.ResponseTimeMs</td>
+                        <td>@stats.RingTimeMs</td>
+                        <td>@stats.CallDurationSeconds</td>
+                        <td class=@GetMosTextBackground(stats.MinimumMos)>@stats.MinimumMos.ToString("F2")</td>
+                        <td class="@GetMosTextBackground(stats.AverageMos)">@stats.AverageMos.ToString("F2")</td>
+                        <td>@stats.MaximumJitterMs</td>
+                        <td>@stats.DroppedPackets</td>
+                        <td>@stats.MaximumDelayMs</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="row mb-1 mt-5">
+        <div class="col-sm-2">
+            <a class="btn btn-secondary" href="@Program.CallQualityPageHelpUri" target="_blank">Help</a>
+        </div>
+    </div>
+}
+
