@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="CallLoadTester.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="CallLoadTester.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

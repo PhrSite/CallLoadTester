@@ -1,0 +1,59 @@
+﻿@page "/CallDetails/{CallID}"
+@rendermode InteractiveServer
+@using SipLib.Rtp;
+
+@if (m_CallStatisticsDetails.ResultsAreValid == false)
+{
+    <h3>No valid results available for the selected call.</h3>    
+}
+else
+{
+    <div class="mt-5">
+        <div class="row mb-2">
+            <div class="col-lg-10">
+                <h3>Call Details for Call Start Time = @m_CallStatisticsDetails.CallStartTime.ToString("HH:mm:ss.fffff")</h3>
+            </div>
+            <div class="col-lg-2">
+                <a class="btn btn-secondary" href="@Program.CallDetailsPageHelpHri" target="_blank">Help</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-sm">
+            <thead class="table-secondary">
+                <tr class="text-center">
+                    <th>Sample Time</th>
+                    <th>MOS</th>
+                    <th>Packets Expected</th>
+                    <th>Packets Received</th>
+                    <th>Packets Dropped</th>
+                    <!--<th>Min. Jitter (ms)</th> -->
+                    <th>Jitter (ms)</th>
+                    <th>Max. Smoothed Jitter (ms)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (RtpReceiveStatistics stats in m_CallStatisticsDetails.ReceiveStatistics)
+                {
+                    <tr class="text-center">
+                        <td>@stats.SampleTime.ToString("HH:mm:ss")</td>
+                        <td class=@CallQualityPage.GetMosTextBackground(stats.Mos.MOS)>@stats.Mos.MOS.ToString("F2")</td>
+                        <td>@stats.PacketsExpected</td>
+                        <td>@stats.PacketsReceived</td>
+                        <td>@stats.DroppedPackets</td>
+                        <td>@(@stats.InstantaneousJitter.Maximum - @stats.InstantaneousJitter.Minimum)</td>
+                        <td>@stats.SmoothedJitter.Maximum</td>
+                    </tr>                   
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+
+
+@code
+{
+    [Parameter]
+    public string CallID { get; set; } = string.Empty;
+
+}

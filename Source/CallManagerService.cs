@@ -37,7 +37,7 @@ public delegate void ErrorDetectedDelegate(string errorMessage);
 public delegate void UpdateCallStatisticsDelegate(CallStatistics callStatistics);
 
 /// <summary>
-/// This class manages calls to the system under test.
+/// This class manages all calls to the system under test.
 /// </summary>
 public class CallManagerService : IDisposable
 {
@@ -85,6 +85,9 @@ public class CallManagerService : IDisposable
 
     private bool m_IsDisposed = false;
 
+    /// <summary>
+    /// Not used
+    /// </summary>
     public void Dispose()
     {
         if (m_IsDisposed == false)
@@ -310,7 +313,7 @@ public class CallManagerService : IDisposable
         set { m_GeneratingCalls = value; }
     }
 
-    private const int CALL_STATISTICE_UPDATE_INTERVAL_MS = 1000;
+    private const int CALL_STATISTICS_UPDATE_INTERVAL_MS = 1000;
 
     /// <summary>
     /// This is the service's main thread loop that generates calls.
@@ -346,7 +349,7 @@ public class CallManagerService : IDisposable
 
             CheckForCallTermination();
 
-            if ((Now - m_LastUpdate).TotalMilliseconds >= CALL_STATISTICE_UPDATE_INTERVAL_MS)
+            if ((Now - m_LastUpdate).TotalMilliseconds >= CALL_STATISTICS_UPDATE_INTERVAL_MS)
             {
                 UpdateStatistics();
                 UpdateCallStatistics?.Invoke(m_CallStatistics);
@@ -467,8 +470,6 @@ public class CallManagerService : IDisposable
         bodyBuilder.AttachMessageBody(invite);
 
         OutgoingCall call = new OutgoingCall(invite, offerSdp, new CallPortAllocations(m_PortManager));
-        call.PortAllocations.AddAllocatedPortsFromSdp(offerSdp);
-
         m_Calls.Add(call.CallID, call);
         call.CallState = OutgoingCallState.Calling;
         call.clientInviteTransaction = m_SipTransport.StartClientInvite(invite, m_RemoteIpEndPoint, OnClientInviteRequestComplete,
@@ -513,7 +514,6 @@ public class CallManagerService : IDisposable
                     call.InitialResponseTime = Now;
             }
         });
-
     }
 
     private void OnClientInviteRequestComplete(SIPRequest sipRequest, SIPResponse? sipResponse, IPEndPoint remoteEndPoint,
@@ -549,14 +549,11 @@ public class CallManagerService : IDisposable
                 SetCallOnLine(call, sipRequest, sipResponse, remoteEndPoint, sipTransport);
             }
         });
-
-
     }
 
     private void SetCallOnLine(OutgoingCall call, SIPRequest sipRequest, SIPResponse sipResponse, IPEndPoint remoteEndPoint,
         SipTransport sipTransport)
     {
-
         Sdp? answeredSdp = sipResponse.GetSdpContents();
 
         if (answeredSdp == null)
@@ -615,20 +612,25 @@ public class CallManagerService : IDisposable
         IAudioEncoder? encoder = AudioMediaUtils.GetAudioEncoder(answeredAudioMd);
         if (encoder == null)
         {
-            // TODO: handle this error
-
+            // This application only offers audio codecs that it knows how to handle. The system under
+            // test answered with a codec that is not supported. This is a protocol violation and the
+            // call cannot be handled so don't try to start media handling.
+            SipLogger.LogError("The system under test answered the offered audio media with an unknown codec.");
             return;
         }
 
         IAudioDecoder? decoder = AudioMediaUtils.GetAudioDecoder(answeredAudioMd);
         if (decoder == null)
         {
-            // TODO: handle this error
-
+            // This application only offers audio codecs that it knows how to handle. The system under
+            // test answered with a codec that is not supported. This is a protocol violation and the
+            // call cannot be handled so don't try to start media handling.
+            SipLogger.LogError("The system under test answered the offered audio media with an unknown codec.");
             return;
         }
 
-        // TODO: decide what to do with received audio for the call.
+        // This application just uses the received audio RTP packets to calculate call quality statistics
+        // so it does not attempt to send the received audio anywhere.
 
         call.audioSource = new AudioSource(answeredAudioMd, encoder, rtpChannel);
         FileAudioSource fileAudioSource = new FileAudioSource(m_AudioRecordingSampleData, null);
@@ -709,21 +711,13 @@ public class CallManagerService : IDisposable
 
         if (call.AnsweredSdp == null || call.AnsweredSdp.GetMediaType(MediaTypes.Audio) == null)
         {
-            // TODO: handle this error
+            SipLogger.LogError("The system under test did not provide an audio media description in the OK response");
             return;
         }
 
         MediaDescription answeredAudioMd = call.AnsweredSdp.GetMediaType(MediaTypes.Audio)!;
-
         Sdp answerSdp = new Sdp(sipTransportManager.SipChannel.SIPChannelEndPoint.Address!, Program.AppName);
-
-        MediaDescription? offeredAudioMd = offeredSdp.GetMediaType(MediaTypes.Audio)!;
-
-        if (offeredAudioMd == null)
-        {
-            // TODO: handle this error
-            return;
-        }
+        MediaDescription offeredAudioMd = offeredSdp.GetMediaType(MediaTypes.Audio)!;
 
         foreach (MediaDescription offeredMd in offeredSdp.Media)
         {
@@ -734,9 +728,10 @@ public class CallManagerService : IDisposable
                     answerSdp.Media.Add(call.OfferedSdp.GetMediaType(MediaTypes.Audio)!);
                 }
                 else
-                {   // Changes to the audio media session are being offered
-
-                    // TODO: handle changes to the audio media session
+                {   // Changes to the audio media session are being offered.
+                    // There are a number of things that the system under test could change in this case
+                    // such as the codec type, media destination endpoint or encryption method.
+                    
                 }
             }
             else
@@ -846,10 +841,6 @@ public class CallManagerService : IDisposable
 
         m_Calls.Clear();
         CallManagerState = CallManagerStateEnum.Idle;
-
-        // For debug only
-        Console.WriteLine($"Free Audio ports = {m_PortManager.GetFreePortCount(MediaTypes.Audio)}");
-
     }
 
     /// <summary>
@@ -891,6 +882,43 @@ public class CallManagerService : IDisposable
         return new AudioSampleData(Samples, waveFormat.SampleRate);
     }
 
+    public CallStatisticsDetails GetCallStatisticsDetails(string callID)
+    {
+        CallStatisticsDetails details = new CallStatisticsDetails();
+        ManualResetEvent manualResetEvent = new ManualResetEvent(false);
+
+        EnqueueWork(() => 
+        {
+            CalculateCallStatisticsDetails(callID, details);
+            manualResetEvent.Set();
+        });
+
+        manualResetEvent.WaitOne();
+        return details;
+    }
+
+    private void CalculateCallStatisticsDetails(string callID, CallStatisticsDetails details)
+    {
+        OutgoingCall? call = GetCall(callID);
+        if (call == null)
+        {
+            details.ResultsAreValid = false;
+            return;
+        }
+
+        details.ResultsAreValid = true;
+        details.CallID = callID;
+        details.CallStartTime = call.CallStartTime;
+        RtpReceiveStatistics[] rxStats = call.ReceiveStatistics.ToArray();
+        // Skip the first entry because it is sent immediately and does not contain any data.
+        for (int i = 1; i < rxStats.Length; i++)
+        {
+            RtpReceiveStatistics temp = rxStats[i].Copy();
+            temp.DroppedPackets = temp.PacketsExpected - temp.PacketsReceived;
+            details.ReceiveStatistics.Add(temp);
+        }
+    }
+
     public CallQualityStatisticsSummary GetCallQualityStatistics()
     {
         CallQualityStatisticsSummary summary = new CallQualityStatisticsSummary();
@@ -910,7 +938,9 @@ public class CallManagerService : IDisposable
 
     private void CalculateQualityStatistics(CallQualityStatisticsSummary summary)
     {
-        summary.MinimumMos = MAXIMUM_MOS;   
+        summary.MinimumMos = MAXIMUM_MOS;
+
+        int SumExpectedPackets = 0;
 
         foreach (OutgoingCall call in m_Calls.Values)
         {
@@ -929,25 +959,34 @@ public class CallManagerService : IDisposable
                 callStats.CallDurationSeconds = (int) (call.CallEndTime - call.PickupTime).TotalSeconds;
 
                 int MosCount = 0;
-                for (int i = 0; i < rtpReceiveStatistics.Length; i++)
-                { 
-                    if (rtpReceiveStatistics[i].PacketsReceived == 0)
-                        continue;
+                int CallSumExpectedPackets = 0;
 
+                // Skip the first entry because it is sent immediately and does not contain any packets
+                for (int i = 1; i < rtpReceiveStatistics.Length; i++)
+                { 
                     MosCount += 1;
                     if (rtpReceiveStatistics[i].Mos.MOS < callStats.MinimumMos)
                         callStats.MinimumMos = rtpReceiveStatistics[i].Mos.MOS;
 
                     callStats.AverageMos += rtpReceiveStatistics[i].Mos.MOS;
+                    int PpJitterMs = rtpReceiveStatistics[i].InstantaneousJitter.Maximum - rtpReceiveStatistics[i].InstantaneousJitter.Minimum;
+                    if (PpJitterMs > callStats.MaximumJitterMs)
+                        callStats.MaximumJitterMs = PpJitterMs;
 
-                    if (rtpReceiveStatistics[i].SmoothedJitter.Maximum > callStats.MaximumJitterMs)
-                        callStats.MaximumJitterMs = rtpReceiveStatistics[i].SmoothedJitter.Maximum;
+                    rtpReceiveStatistics[i].DroppedPackets = rtpReceiveStatistics[i].PacketsExpected -
+                        rtpReceiveStatistics[i].PacketsReceived;
 
                     callStats.DroppedPackets += rtpReceiveStatistics[i].DroppedPackets;
+                    CallSumExpectedPackets += rtpReceiveStatistics[i].PacketsExpected;
+                    SumExpectedPackets += rtpReceiveStatistics[i].PacketsExpected;
+
                     callStats.OutOfOrderPackets += rtpReceiveStatistics[i].OutOfOrderPackets;
                     if (rtpReceiveStatistics[i].DelayInMilliseconds > callStats.MaximumDelayMs)
                         callStats.MaximumDelayMs = rtpReceiveStatistics[i].DelayInMilliseconds;
                 }
+
+                if (CallSumExpectedPackets > 0)
+                    callStats.DroppedPacketsPercent = ((double)callStats.DroppedPackets * 100) / CallSumExpectedPackets;
 
                 if (MosCount > 0)
                     callStats.AverageMos = callStats.AverageMos / MosCount;
@@ -983,6 +1022,9 @@ public class CallManagerService : IDisposable
             if (callQualStats.MaximumDelayMs > summary.MaximumDelayMs)
                 summary.MaximumDelayMs = callQualStats.MaximumDelayMs;
         }
+
+        if (SumExpectedPackets > 0)
+            summary.DroppedPacketsPercent = ((double) summary.DroppedPackets * 100) / SumExpectedPackets;
     }
 
 }

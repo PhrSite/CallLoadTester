@@ -12,6 +12,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/CallDetailsPage.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/CallDetailsPage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/CallQualitySummary.md",
       "output": {
         ".html": {
@@ -36,6 +46,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/MainPage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/MeanOpinionScore.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/MeanOpinionScore.html"
         }
       },
       "version": ""

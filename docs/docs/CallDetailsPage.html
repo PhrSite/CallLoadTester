@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>Getting Started | Call Load Tester Documentation </title>
+      <title>The Call Details Page | Call Load Tester Documentation </title>
       <meta name="viewport" content="width=device-width">
-      <meta name="title" content="Getting Started | Call Load Tester Documentation ">
+      <meta name="title" content="The Call Details Page | Call Load Tester Documentation ">
     
     
       <link rel="shortcut icon" href="../favicon.ico">
@@ -77,27 +77,28 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="getting-started">Getting Started</h1>
+<h1 id="the-call-details-page">The Call Details Page</h1>
 
-<p>This application is a VOIP SIP call load test application that can deliver one or more calls to an application that is capable of answering SIP calls.</p>
-<p>The basic workflow for using this application is:</p>
-<ol>
-<li>Change the test conditions in the Settings page and save the settings by clicking on the Submit button.</li>
-<li>Navigate to the Home page</li>
-<li>Click on the Start Service button. This starts the call management service of the application.</li>
-<li>Click on the Start Calls button to start call generation.</li>
-<li>When call generation is complete, navigate to the Call Quality page to see the test results.</li>
-</ol>
-<p>The call management service reads the saved configuration settings when it is started by by clicking on the Start Service button.</p>
-<p>To run a new test with different settings, click on the Stop Service button and then repeat the above steps.</p>
-<h2 id="basic-settings-operation">Basic Settings Operation</h2>
-<ol>
-<li>Click on the Settings link in the navigation window located in the left hand portion of the screen.</li>
-<li>Enter the SIP To URI. This setting specifies where to send calls.</li>
-<li>Enter the Total Calls, Simultaneous Calls, Call Interval and Call Duration settings.</li>
-<li>Select an IPv4 and/or an IPv6 IP address.</li>
-<li>Click on the Submit button to save the new settings to the configuration file.</li>
-</ol>
+<p>This page shows the call quality details for a single call. Each row in the table contains the data for a 5 second interval during the call. Each row contains the following columns.</p>
+<h2 id="sample-time">Sample Time</h2>
+<p>Shows the time of day of the sample interval. This represents the time of the end of the 5 second sample interval. The first sample time will be 5 seconds after the start of the call.</p>
+<h2 id="mos">MOS</h2>
+<p>This is the Mean Opinion Score (MOS) calculated during the sample interval.</p>
+<h2 id="packets-expected">Packets Expected</h2>
+<p>Shows the number of RTP audio packets expected during the sample interval.</p>
+<p>Since the sample interval is 5 seconds, this is expected to be 250 packets corresponding to 20 milliseconds per packet. However, the sample interval is determined by a software system timer and there may be slight variations in the sample interval due to timer jitter. For this reason, it is possible for there to be a +/- 1 packet variation in the number of expected packets during the interval.</p>
+<h2 id="packets-received">Packets Received</h2>
+<p>This column shows the number of RTP audio packets that were actually received during the sample interval.</p>
+<p>Ideally, this should be exactly equal to the number of expected packets. However, the sample interval is determined by a software system timer and the timer runs asynchronously with respect to packets being sent over the network by the system under test. For this reason, it is possible that there will be a slight (+/- 1 packet or slightly more) difference between the packets expected and the number of packets actually received during the sample interval.</p>
+<h2 id="packets-dropped">Packets Dropped</h2>
+<p>Shows the difference between the packets expected and the packets received during the sample interval.</p>
+<p>A positive value indicates that packets may have been dropped during the sample interval. A negative value indicates that more packets than expected were received during the sample interval.</p>
+<p>Occasional low values in the range of +/- 1 or even +/- 2 during the sample interval may be due to the slight jitter in the software timer used to determine the sample interval and are generally no too significant.</p>
+<p>Values of +/- 3 or greater generally indicate that packets were actually dropped during the sample interval.</p>
+<h2 id="min-jitter-ms">Min. Jitter (ms)</h2>
+<p>This column shows the minimum smoothed RTP packet jitter in milliseconds that was calculated during the sample interval.</p>
+<h2 id="max-jitter-ms">Max. Jitter (ms)</h2>
+<p>This column shows the maximum smoothed RTP packet jitter in milliseconds that was calculated during the sample interval.</p>
 
 </article>
           </div>
@@ -107,7 +108,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/PhrSite/CallLoadTester/blob/master/Documentation/docs/GettingStarted.md/#L1" class="contribution-link">Edit this page</a>
+                    <a href="https://github.com/PhrSite/CallLoadTester/blob/master/Documentation/docs/CallDetailsPage.md/#L1" class="contribution-link">Edit this page</a>
                   </li>
                 </ul>
               </div>

@@ -21,7 +21,7 @@ public partial class CallQualityPage
             m_Summary = m_CallManager.GetCallQualityStatistics();
     }
 
-    public string GetMosTextBackground(double Mos)
+    public static string GetMosTextBackground(double Mos)
     {
         string TextBg = "text-bg-success";
         if (Mos >= 4.3)

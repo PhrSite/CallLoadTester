@@ -23,17 +23,18 @@ public class Program
     public static string Version = "1.0.0";
 
     //public const string HelpUriBase = "http://localhost:8080/docs/";
-    public const string HelpUriBase = "https://CallLoadTester.github.io/CallLoadTester/docs/";
+    public const string HelpUriBase = "https://PhrSite.github.io/CallLoadTester/docs/";
     public const string GettingStartedUri = HelpUriBase + "GettingStarted.html";
     public const string HomePageHelpUri = HelpUriBase + "MainPage.html";
     public const string SettingsPageHelpUri = HelpUriBase + "SettingsPage.html";
     public const string CallQualityPageHelpUri = HelpUriBase + "CallQualitySummary.html";
+    public const string CallDetailsPageHelpHri = HelpUriBase + "CallDetailsPage.html";
 
     private const string LoggingFileName = $"{AppName}.log";
     private static LoggingLevelSwitch m_LevelSwitch = new LoggingLevelSwitch();
 
     private const string DEFAULT_CERTIFICATE_FILE = "CallLoadTester.pfx";
-    private const string DEFAULT_CERFICATE_PASSWORD = "CallLoadTester";
+    private const string DEFAULT_CERTIFICATE_PASSWORD = "CallLoadTester";
 
     public static void Main(string[] args)
     {
@@ -62,8 +63,7 @@ public class Program
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddRazorComponents()
-            .AddInteractiveServerComponents();
+        builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
         // 31 May 26 PHR
         builder.Services.AddMvc((options =>
@@ -78,7 +78,7 @@ public class Program
             // HTTPS binding with a self-signed certificate
             options.Listen(IPAddress.Any, 5001, listenOptions =>
             {
-                listenOptions.UseHttps(DEFAULT_CERTIFICATE_FILE, DEFAULT_CERFICATE_PASSWORD);
+                listenOptions.UseHttps(DEFAULT_CERTIFICATE_FILE, DEFAULT_CERTIFICATE_PASSWORD);
             });
         });
 
@@ -90,7 +90,7 @@ public class Program
             Console.WriteLine($"Listening on: https://{ipAddress}:5001");
         }
 
-        X509Certificate2 certificate = X509CertificateLoader.LoadPkcs12FromFile(DEFAULT_CERTIFICATE_FILE, DEFAULT_CERFICATE_PASSWORD);
+        X509Certificate2 certificate = X509CertificateLoader.LoadPkcs12FromFile(DEFAULT_CERTIFICATE_FILE, DEFAULT_CERTIFICATE_PASSWORD);
         builder.Services.AddSingleton<CallManagerService>(sp => new CallManagerService(certificate));
 
         // Completely wipes out console, debug, and trace outputs

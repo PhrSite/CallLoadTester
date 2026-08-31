@@ -31,6 +31,11 @@ public class CallQualityStatisticsSummary
     public int DroppedPackets { get; set; } = 0;
 
     /// <summary>
+    /// Percentage of expected packets that were dropped for all calls.
+    /// </summary>
+    public double DroppedPacketsPercent { get; set; } = 0;
+
+    /// <summary>
     /// Total number of out of order packets detected for all calls.
     /// </summary>
     public int OutOfOrderPackets { get; set; } = 0;
