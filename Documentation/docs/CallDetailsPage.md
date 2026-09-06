@@ -27,9 +27,9 @@ Occasional low values in the range of +/- 1 or even +/- 2 during the sample inte
 
 Values of +/- 3 or greater generally indicate that packets were actually dropped during the sample interval.
 
-## Min. Jitter (ms)
-This column shows the minimum smoothed RTP packet jitter in milliseconds that was calculated during the sample interval.
+## Jitter (ms)
+This column shows the peak-to-peak instantaneous RTP packet jitter in milliseconds that was calculated during the sample interval. This is the jitter value that is used to calculate the MOS value.
 
-## Max. Jitter (ms)
+## Max. Smoothed Jitter (ms)
 This column shows the maximum smoothed RTP packet jitter in milliseconds that was calculated during the sample interval.
 

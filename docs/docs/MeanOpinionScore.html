@@ -79,6 +79,215 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="mean-opinion-score-calculation">Mean Opinion Score Calculation</h1>
 
+<p>This application uses a method of calculating the estimated Mean Opinion Score that is described in the article entitled &quot;<a href="https://arimas.com/it/insight-news/emos-estimated-mean-opinion-score/">emos - Estimated Mean Opinion Score</a>&quot;.</p>
+<p>The calculation of the MOS uses the following inputs.</p>
+<ol>
+<li>Jitter in milliseconds</li>
+<li>Packet Loss in percent</li>
+<li>Average Latency in milliseconds</li>
+</ol>
+<p>The following code snippet shows the pseudo code for the algorithm used to calculate the MOS.</p>
+<pre><code>Effective Latency = Average Latency + (Jitter x 2) + 10
+
+if Effective Latency &lt; 160
+    R = 93.2 - (Effective Latency / 40)
+else
+    R = 93.2 - (Effective Latency - 120) / 10
+
+Packet Loss Percent = Abs((1.0 - Received Packets / Expected Packets) * 100)
+
+R = R - (Packet Loss Percent * 2.5)
+
+if R &lt; 0
+    MOS = 1.0
+else if R &gt;= 0 and R &lt;= 100
+    MOS = 1 + 0.035 * R + R * (R - 60) * (100 - R) * 7e-6
+else
+    MOS = 4.5
+
+</code></pre>
+<p>This application uses the peak-to-peak jitter within each sample interval.</p>
+<p>The Average Latency term represents the network latency between this application and the remote endpoint under test. It is calculated by comparing the NTP timestamps reported by the remote endpoint point in RTCP Sender Reports that it sends to this application with the NTP timestamp calculated by this application.
+This application ingores the Average Latency (i.e. it is set to 0) in the calculation of the MOS because this number is often not accurate because the remote endpoint's clock is not syncronized with the network's NTP server.</p>
+<p>Note: The equation for the R factor shown in step 4 of the EMOS article is incorrect.
+The R factor shown in the above code snippet is calculated using Equation B-4 of Annex B of the ITU-T G.107 standard.</p>
+<p>The following table shows the effect of of jitter on the MOS.</p>
+<table>
+<thead>
+<tr>
+<th>Average Latency (ms)</th>
+<th>Jitter (ms)</th>
+<th>Packet Loss (%)</th>
+<th>MOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4.40</td>
+</tr>
+<tr>
+<td>0</td>
+<td>40</td>
+<td>0</td>
+<td>4.36</td>
+</tr>
+<tr>
+<td>0</td>
+<td>80</td>
+<td>0</td>
+<td>4.29</td>
+</tr>
+<tr>
+<td>0</td>
+<td>120</td>
+<td>0</td>
+<td>4.03</td>
+</tr>
+<tr>
+<td>0</td>
+<td>160</td>
+<td>0</td>
+<td>3.70</td>
+</tr>
+<tr>
+<td>0</td>
+<td>200</td>
+<td>0</td>
+<td>3.31</td>
+</tr>
+</tbody>
+</table>
+<p>The following table shows the effect of packet loss on the MOS.</p>
+<table>
+<thead>
+<tr>
+<th>Average Latency (ms)</th>
+<th>Jitter (ms)</th>
+<th>Packet Loss (%)</th>
+<th>MOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4.40</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>4.35</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>4.04</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>3.50</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>15</td>
+<td>2.86</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>20</td>
+<td>2.21</td>
+</tr>
+</tbody>
+</table>
+<p>The following table shows the effect of Average Latency on the MOS. This software does not use the Average Latency for calculating the MOS. This table is provided for reference only.</p>
+<table>
+<thead>
+<tr>
+<th>Average Latency (ms)</th>
+<th>Jitter (ms)</th>
+<th>Packet Loss (%)</th>
+<th>MOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4.40</td>
+</tr>
+<tr>
+<td>100</td>
+<td>0</td>
+<td>0</td>
+<td>4.35</td>
+</tr>
+<tr>
+<td>200</td>
+<td>0</td>
+<td>0</td>
+<td>4.12</td>
+</tr>
+<tr>
+<td>300</td>
+<td>0</td>
+<td>0</td>
+<td>3.79</td>
+</tr>
+<tr>
+<td>400</td>
+<td>0</td>
+<td>0</td>
+<td>3.36</td>
+</tr>
+<tr>
+<td>500</td>
+<td>0</td>
+<td>0</td>
+<td>2.79</td>
+</tr>
+<tr>
+<td>600</td>
+<td>0</td>
+<td>0</td>
+<td>2.27</td>
+</tr>
+<tr>
+<td>700</td>
+<td>0</td>
+<td>0</td>
+<td>1.79</td>
+</tr>
+<tr>
+<td>800</td>
+<td>0</td>
+<td>0</td>
+<td>1.39</td>
+</tr>
+<tr>
+<td>900</td>
+<td>0</td>
+<td>0</td>
+<td>1.11</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>0</td>
+<td>0</td>
+<td>0.99</td>
+</tr>
+</tbody>
+</table>
 
 </article>
           </div>

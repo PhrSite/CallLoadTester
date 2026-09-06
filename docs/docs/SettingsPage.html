@@ -118,9 +118,9 @@
 <p>The port parameter of the SIP URI is optional. If a port is not specified then the application will use 5060 for SIP and 5061 for SIPS (SIP over TLS).</p>
 <h3 id="starting-from-number">Starting From Number</h3>
 <p>This application uses a unique SIP From header for each INVITE request that it sends to the system under test. This setting specifies a 10-digit telephone number that will be used for the user part of the SIP URI in the From header of the first INVITE request. The telephone number will be incremented by one for each subsequent INVITE request.</p>
-<p>For example, if the Starting From Number setting is 1000000000 and the local IPv4 address is 102.168.1.76, then the From header in the first INVITE request will be From: <a href="sip:1000000000@192.168.1.76">sip:1000000000@192.168.1.76</a> and the From header for the second INVITE request will be From: <a href="sip:1000000001@192.168.1.76">sip:1000000001@192.168.1.76</a>.</p>
+<p>For example, if the Starting From Number setting is 1000000000 and the local IPv4 address is 192.168.1.76, then the From header in the first INVITE request will be From: <a href="sip:1000000000@192.168.1.76">sip:1000000000@192.168.1.76</a> and the From header for the second INVITE request will be From: <a href="sip:1000000001@192.168.1.76">sip:1000000001@192.168.1.76</a>.</p>
 <h3 id="use-urnservicesos">Use urn:service:sos</h3>
-<p>If this checkbox is checked then the SIP Request URI in the request line of each INVITE request will be urn:service:sos. If this checkox is not checked then the SIP Request URIn in the request line of each INVITE request will be set to the <a href="#ToSipUri">SIP To URI</a>.</p>
+<p>If this checkbox is checked then the SIP Request URI in the request line of each INVITE request will be urn:service:sos. If this checkox is not checked then the SIP Request URI in the request line of each INVITE request will be set to the <a href="#ToSipUri">SIP To URI</a>.</p>
 <h2 id="number-of-calls">Number of Calls</h2>
 <p>The following settings specify the number and rate of call request that the application will send to the system under test.</p>
 <h3 id="total-calls">Total Calls</h3>
@@ -139,8 +139,8 @@
 <h3 id="send-location">Send Location</h3>
 <p>If this checkbox is checked then the application will send a semi-random caller location with each call.</p>
 <h3 id="starting-latitude">Starting Latitude</h3>
-<p>This setting specifies the longitude in decimal degrees to use for generation of caller locations. The spacial reference is WGS-84.</p>
-<p>The minimum value is -180 and the maximum value is 180 degrees.</p>
+<p>This setting specifies the latitude in decimal degrees to use for generation of caller locations. The spacial reference is WGS-84.</p>
+<p>The minimum value is -90 and the maximum value is 90 degrees.</p>
 <h3 id="starting-longitude">Starting Longitude</h3>
 <p>This setting specifies the longitude in decimal degrees to use for generation of caller locations. The spacial reference is WGS-84.</p>
 <p>The minimum value is -180 and the maximum value is 180 degrees.</p>
@@ -155,13 +155,13 @@
 <h3 id="enable-ipv4">Enable IPv4</h3>
 <p>If checked then IP version 4 (IPv4) will be used for SIP and media.</p>
 <h3 id="ipv4-address">IPv4 Address</h3>
-<p>This setting selects the local IPv4 address that the application will bind to for SIP.</p>
+<p>This setting selects the local IPv4 address that the application will bind to for SIP and RTP.</p>
 <h3 id="enable-ipv6">Enable IPv6</h3>
 <p>If checked then IP version 6 (IPv6) will be used for SIP and media.</p>
 <h3 id="ipv6-address">IPv6 Address</h3>
-<p>This setting selects the local IPv6 address that the application will bind to for SIP.</p>
+<p>This setting selects the local IPv6 address that the application will bind to for SIP and RTP.</p>
 <h3 id="prefer-ipv6">Prefer IPv6</h3>
-<p>This setting determines which IP protocol to use (IPv4 or IPv6) to use if it performs a DNS host name lookup and finds both an IPv4 address and an IPv6 address for the hostname portion of the SIP To URI setting.</p>
+<p>This setting determines which IP protocol to use (IPv4 or IPv6) if it performs a DNS host name lookup and finds both an IPv4 address and an IPv6 address for the hostname portion of the SIP To URI setting.</p>
 <p>If the application finds both an IPv4 and an IPv6 address for the host name then it will use the Prefer IPv6 setting to determine which IP address to use. If Prefer IPv6 is checked then the application will use the IPv6 address, else it will use the IPv4 address.</p>
 <h2 id="sip-protocol-settings">SIP Protocol Settings</h2>
 <h3 id="local-sip-port">Local SIP Port</h3>
@@ -171,6 +171,7 @@
 <p>This setting specifies the local SIP port to bind to for SIPS (SIP over TLS).</p>
 <p>The default setting is 5061.</p>
 <h3 id="audio-codec">Audio Codec</h3>
+<p>This setting specifies which audio codec will be offered. This appication will offer only one audio codec in the INVITE request.</p>
 <p>The available codecs are:</p>
 <ul>
 <li>PCMU</li>

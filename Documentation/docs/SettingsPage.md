@@ -30,10 +30,10 @@ The port parameter of the SIP URI is optional. If a port is not specified then t
 ### Starting From Number
 This application uses a unique SIP From header for each INVITE request that it sends to the system under test. This setting specifies a 10-digit telephone number that will be used for the user part of the SIP URI in the From header of the first INVITE request. The telephone number will be incremented by one for each subsequent INVITE request.
 
-For example, if the Starting From Number setting is 1000000000 and the local IPv4 address is 102.168.1.76, then the From header in the first INVITE request will be From: <sip:1000000000@192.168.1.76> and the From header for the second INVITE request will be From: <sip:1000000001@192.168.1.76>.
+For example, if the Starting From Number setting is 1000000000 and the local IPv4 address is 192.168.1.76, then the From header in the first INVITE request will be From: <sip:1000000000@192.168.1.76> and the From header for the second INVITE request will be From: <sip:1000000001@192.168.1.76>.
 
 ### Use urn:service:sos
-If this checkbox is checked then the SIP Request URI in the request line of each INVITE request will be urn:service:sos. If this checkox is not checked then the SIP Request URIn in the request line of each INVITE request will be set to the [SIP To URI](#ToSipUri).
+If this checkbox is checked then the SIP Request URI in the request line of each INVITE request will be urn:service:sos. If this checkox is not checked then the SIP Request URI in the request line of each INVITE request will be set to the [SIP To URI](#ToSipUri).
 
 ## Number of Calls
 The following settings specify the number and rate of call request that the application will send to the system under test.
@@ -63,9 +63,9 @@ Semi-random locations are generated within a rectangle that is determined by the
 If this checkbox is checked then the application will send a semi-random caller location with each call.
 
 ### Starting Latitude
-This setting specifies the longitude in decimal degrees to use for generation of caller locations. The spacial reference is WGS-84.
+This setting specifies the latitude in decimal degrees to use for generation of caller locations. The spacial reference is WGS-84.
 
-The minimum value is -180 and the maximum value is 180 degrees.
+The minimum value is -90 and the maximum value is 90 degrees.
 
 ### Starting Longitude
 This setting specifies the longitude in decimal degrees to use for generation of caller locations. The spacial reference is WGS-84.
@@ -89,16 +89,16 @@ The network settings determine the IP addresses and port numbers used for SIP.
 If checked then IP version 4 (IPv4) will be used for SIP and media.
 
 ### IPv4 Address
-This setting selects the local IPv4 address that the application will bind to for SIP.
+This setting selects the local IPv4 address that the application will bind to for SIP and RTP.
 
 ### Enable IPv6
 If checked then IP version 6 (IPv6) will be used for SIP and media.
 
 ### IPv6 Address
-This setting selects the local IPv6 address that the application will bind to for SIP.
+This setting selects the local IPv6 address that the application will bind to for SIP and RTP.
 
 ### Prefer IPv6
-This setting determines which IP protocol to use (IPv4 or IPv6) to use if it performs a DNS host name lookup and finds both an IPv4 address and an IPv6 address for the hostname portion of the SIP To URI setting.
+This setting determines which IP protocol to use (IPv4 or IPv6) if it performs a DNS host name lookup and finds both an IPv4 address and an IPv6 address for the hostname portion of the SIP To URI setting.
 
 If the application finds both an IPv4 and an IPv6 address for the host name then it will use the Prefer IPv6 setting to determine which IP address to use. If Prefer IPv6 is checked then the application will use the IPv6 address, else it will use the IPv4 address.
 
@@ -115,6 +115,8 @@ This setting specifies the local SIP port to bind to for SIPS (SIP over TLS).
 The default setting is 5061.
 
 ### Audio Codec
+This setting specifies which audio codec will be offered. This appication will offer only one audio codec in the INVITE request.
+
 The available codecs are:
 
 - PCMU

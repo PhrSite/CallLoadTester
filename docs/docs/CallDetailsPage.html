@@ -95,9 +95,9 @@
 <p>A positive value indicates that packets may have been dropped during the sample interval. A negative value indicates that more packets than expected were received during the sample interval.</p>
 <p>Occasional low values in the range of +/- 1 or even +/- 2 during the sample interval may be due to the slight jitter in the software timer used to determine the sample interval and are generally no too significant.</p>
 <p>Values of +/- 3 or greater generally indicate that packets were actually dropped during the sample interval.</p>
-<h2 id="min-jitter-ms">Min. Jitter (ms)</h2>
-<p>This column shows the minimum smoothed RTP packet jitter in milliseconds that was calculated during the sample interval.</p>
-<h2 id="max-jitter-ms">Max. Jitter (ms)</h2>
+<h2 id="jitter-ms">Jitter (ms)</h2>
+<p>This column shows the peak-to-peak instantaneous RTP packet jitter in milliseconds that was calculated during the sample interval. This is the jitter value that is used to calculate the MOS value.</p>
+<h2 id="max-smoothed-jitter-ms">Max. Smoothed Jitter (ms)</h2>
 <p>This column shows the maximum smoothed RTP packet jitter in milliseconds that was calculated during the sample interval.</p>
 
 </article>

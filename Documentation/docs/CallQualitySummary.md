@@ -12,9 +12,6 @@ Shows the number of calls that have been completed and have a call duration of g
 ## Maximum Jitter
 The Maximum Jitter is the maximum smoothed RTP packet jitter in milliseconds for all completed calls.
 
-## Out of Order Packets
-Shows the total number of RTP audio packets that were received out of order for all completed calls.
-
 ## Minimum MOS
 Shows the minimum Mean Opinion Score (MOS) for all completed calls.
 
@@ -26,7 +23,7 @@ The Maximum Network Delay is an estimate of the network delay between the comput
 
 This application estimates the network delay by comparing the NTP timestamp reported by the remote party's computer via a Sender Report RTCP message with this computer's current timestamp. The network delay will not be calculated if the called party does not send RTCP Sender Report packets and it will be set to 0.
 
-Ideally, the network should be very low, on the order of milliseconds if the clocks on both computers are perfectly synchronized. A large network delay may be caused by one or more of the following reasons.
+Ideally, the network delay should be very low, on the order of milliseconds if the clocks on both computers are perfectly synchronized. A large network delay may be caused by one or more of the following reasons.
 
 1. Delay due to the physical network
 1. Delay or latency caused by the operating system or the way in which an application prioritizes and handles media packets
@@ -52,7 +49,7 @@ The Min. MOS column shows the minimum Mean Opinion Score (MOS) calculated during
 
 The Avg. MOS column shows the average Mean Opinion Score (MOS) calculated during the call.
 
-The Max. Jitter column shows the maximum smoothed RTP packet jitter in milliseconds that was calculated during the call.
+The Max. Jitter column shows the maximum instantaneous RTP packet jitter in milliseconds that was calculated during the call.
 
 The Dropped Packets column shows the total number of dropped RTP audio packets detected during the call.
 

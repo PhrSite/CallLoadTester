@@ -17,7 +17,7 @@ The GitHub documentation pages for this application are located at [https://phrs
 The CallLoadTester project uses the following NG9-1-1 related NuGet packages.
 
 1. Ng911Lib (2.3.0)
-1. SipLib (1.2.0)
+1. SipLib (1.2.1)
 
 The CallLoadTester project uses the following general purpose NuGet packages.
 1. NAudio.Core (2.3.0)

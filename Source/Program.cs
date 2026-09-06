@@ -30,6 +30,8 @@ public class Program
     public const string CallQualityPageHelpUri = HelpUriBase + "CallQualitySummary.html";
     public const string CallDetailsPageHelpHri = HelpUriBase + "CallDetailsPage.html";
 
+    public const string MosCalculatorPageHelpUri = HelpUriBase + "MeanOpinionScore.html";
+
     private const string LoggingFileName = $"{AppName}.log";
     private static LoggingLevelSwitch m_LevelSwitch = new LoggingLevelSwitch();
 

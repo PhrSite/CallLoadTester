@@ -1,0 +1,49 @@
+﻿@page "/MosCalculator"
+@rendermode InteractiveServer
+<PageTitle>MOS Calculator</PageTitle>
+
+<h3 class="mb-3">MOS Calculator</h3>
+
+<EditForm OnValidSubmit="OnSubmit" Model="@mosCalculatorModel">
+    <DataAnnotationsValidator/>
+
+    <div class="form-group row mb-3">
+        <div class="col-sm-3">
+            <label for="Jitter">Jitter (milliseconds)</label>
+            <InputNumber class="form-control" id="Jitter" @bind-Value="mosCalculatorModel.Jitter" 
+                @bind-Value:after="OnChange" />
+            <ValidationMessage For="@(() => mosCalculatorModel.Jitter)" />
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-3">
+            <label for="PacketLoss">Packet Loss (percent)</label>
+            <InputNumber class="form-control" id="PacketLoss" @bind-Value="mosCalculatorModel.PacketLoss" 
+                @bind-Value:after="OnChange" />
+            <ValidationMessage For="@(() => mosCalculatorModel.PacketLoss)" />
+        </div>
+    </div>
+
+    @if (mosCalculated == true)
+    {
+        <div class="row mt-3 mb-1">
+            <div class="col-sm-2">
+                <h3 class=@CallQualityPage.GetMosTextBackground(mosCalculatorModel.Result)>MOS = @mosCalculatorModel.Result.ToString("F2")</h3>
+            </div>
+        </div>
+    }
+
+    <div class="form-group row mb-1 mt-3">
+        <div class="col-sm-1">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="btn btn-secondary" href="@Program.MosCalculatorPageHelpUri" target="_blank">Help</a>
+        </div>
+
+    </div>
+
+</EditForm>
+

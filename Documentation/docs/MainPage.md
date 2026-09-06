@@ -14,13 +14,13 @@ The statistics shown in this page are automatically updated every second when th
 
 | Statistics | Description |
 |------------|-------------|
-| Total Calls | Displays the current number of call attempts that have been made. The application stops sending INVITE requests when the total number of calls reaches the Total Calls configuration setting.|
+| Total Calls | Displays the current number of call attempts that have been made. The application stops sending INVITE requests when the total number of call attempts reaches the Total Calls configuration setting.|
 | Completed   | Indicates the number of calls that have been successfully completed. |
 | On-Line     | Shows the number of calls that are currently in the On-Line state. Calls that have been answered by the remote endpoint are considered on-line. |
 | Calling     | This is the number of calls that are in the Calling state. A call is in the calling state when the application sends an INVITE request but the remote endpoint has not sent a final or an interim response. |
 | Ringing     | Shows the number of calls that are in the Ringing state. A call is considered to be in the Ringing state if the remote endpoint has sent any interim response. |
 | Rejected    | Shows the number of calls that the remote endpoint has rejected by sending a SIP response with a status code of 400 or greater. |
-| Failed      | Shows the number of calls that have failed. A call is considered to have failed if the SIP INVITE transaction times out before the remote endpoint send a response message. The standard timeout interval is 32 seconds. |
+| Failed      | Shows the number of calls that have failed. A call is considered to have failed if the SIP INVITE transaction times out before the remote endpoint sends a response message. The standard timeout interval is 32 seconds. |
 | Canceled    | Shows the number of calls that have been canceled by this application. A call is canceled it is in the Calling or Ringing states when the user clicks on the End Calls button on this page. |
 
 ## Controls
